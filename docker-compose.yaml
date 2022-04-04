@@ -1,0 +1,40 @@
+version: "3"
+
+volumes:
+ wordpress: {}
+ db: {}
+services:
+ nginx:
+  build: ./nginx
+  image: nginx:test
+  container_name: test-nginx-2
+  ports:
+   - 80:80
+  volumes:
+   - wordpress:/var/www/html
+  restart: always
+  tty: true
+  stdin_open: true
+ wordpress:
+  build: ./wordpress
+  image: wp:test
+  container_name: test-wordpress
+  expose:
+   - "9000"
+  volumes:
+   - wordpress:/var/www/html
+  restart: always
+  tty: true
+  stdin_open: true
+ mariadb:
+  build: ./mariadb
+  image: db:test
+  container_name: test-db
+  expose:
+   - "3306"
+  volumes:
+   - db:/var/lib/mysql
+  restart: always
+  tty: true
+  stdin_open: true
+
