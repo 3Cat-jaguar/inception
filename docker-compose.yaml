@@ -1,28 +1,25 @@
 version: "3"
 
-volumes:
- wordpress: {}
- db: {}
 services:
  nginx:
   build: ./nginx
   image: nginx:test
-  container_name: test-nginx-2
+  container_name: test-nginx
   ports:
    - 80:80
   volumes:
-   - wordpress:/var/www/html
+   - /home/ylee/data/html:/var/www/html
   restart: always
   tty: true
   stdin_open: true
  wordpress:
   build: ./wordpress
   image: wp:test
-  container_name: test-wordpress
+  container_name: test-wp
   expose:
    - "9000"
   volumes:
-   - wordpress:/var/www/html
+   - /home/ylee/data/html:/wordpress
   restart: always
   tty: true
   stdin_open: true
@@ -33,7 +30,7 @@ services:
   expose:
    - "3306"
   volumes:
-   - db:/var/lib/mysql
+   - /home/ylee/data/mariadb:/var/lib/mysql
   restart: always
   tty: true
   stdin_open: true
